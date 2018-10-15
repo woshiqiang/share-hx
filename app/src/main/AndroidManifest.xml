@@ -26,21 +26,8 @@
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
         </activity>
         <activity android:name=".activity.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.PublishActivity" />
@@ -66,7 +53,14 @@
         <!-- 百度地图 -->
         <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity" />
         <activity android:name=".activity.SearchActivity" />
-        <activity android:name=".activity.ModifyActivity"></activity>
+        <activity android:name=".activity.ModifyActivity" />
+        <activity android:name=".activity.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
