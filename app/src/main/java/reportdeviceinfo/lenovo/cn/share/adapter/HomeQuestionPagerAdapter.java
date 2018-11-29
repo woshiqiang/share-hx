@@ -10,7 +10,7 @@ import reportdeviceinfo.lenovo.cn.share.fragment.NewestFragment;
 
 public class HomeQuestionPagerAdapter extends FragmentPagerAdapter {
     private String[] titles = new String[]{"最新", "最热", "最近"};
-    private String[] orders = new String[]{"createdAt","scanNumber","updatedAt"};
+    private String[] orders = new String[]{"createdAt","scanNumber","whereCreated"};
     private Context context;
 
     public HomeQuestionPagerAdapter(FragmentManager fm, Context context) {

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -99,9 +100,15 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
             tv_nick.setText(nick);
         }
 
+
         AVFile headImg = owner.getAVFile("headImg");
-        if (headImg != null)
+        if (headImg != null) {
             ImageLoaderUtil.display(this, headImg.getUrl(), riv_head);
+        } else {
+            String string = owner.getString("iconurl");
+            Log.d("HomePageActivity", "头像---"+string);
+            ImageLoaderUtil.display(this, string, riv_head);
+        }
 
         String sign = owner.getString("sign");
         if (!TextUtils.isEmpty(sign)) {

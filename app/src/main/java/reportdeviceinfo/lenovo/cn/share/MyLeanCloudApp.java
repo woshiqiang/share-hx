@@ -2,11 +2,15 @@ package reportdeviceinfo.lenovo.cn.share;
 
 import android.app.Application;
 import android.graphics.Color;
+import android.location.Location;
+import android.util.Log;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.EaseUI;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.socialize.PlatformConfig;
 
 import cn.finalteam.galleryfinal.CoreConfig;
 import cn.finalteam.galleryfinal.FunctionConfig;
@@ -14,11 +18,16 @@ import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.PauseOnScrollListener;
 import cn.finalteam.galleryfinal.ThemeConfig;
 import reportdeviceinfo.lenovo.cn.share.util.GlideImageLoader;
+import reportdeviceinfo.lenovo.cn.share.util.LocationUtils;
 
 /**
  * https://leancloud.cn/docs/sdk_setup-android.html#hash7247859
  */
 public class MyLeanCloudApp extends Application {
+    //友盟appkey
+    private String appkey = "5bff52ddb465f51c7600014d";
+    private String channel = "Wandoujia";
+    public static double latitude, longitude;//纬度。经度
 
     @Override
     public void onCreate() {
@@ -71,6 +80,31 @@ public class MyLeanCloudApp extends Application {
         GalleryFinal.init(coreConfig);
         //初始化环信
         initHuanXin();
+
+        initUM();
+
+        initLocation();
+    }
+
+    private void initLocation() {
+        Location location = LocationUtils.getInstance(this).showLocation();
+        if (location != null) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            String address = "纬度：" + location.getLatitude() + "经度：" + location.getLongitude();
+            Log.d("LocationUtils", address);
+        }
+    }
+
+    /**
+     * 友盟第三方登录
+     */
+    private void initUM() {
+        // <!-- 微信平台 --> appid appsecret
+        UMConfigure.setLogEnabled(true);
+        UMConfigure.init(this, appkey, channel, UMConfigure.DEVICE_TYPE_PHONE, "");
+        PlatformConfig.setWeixin("wxdc1e388c3822c80b", "3baf1193c85774b3fd9d18447d76cab0");
+        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
     }
 
     private void initHuanXin() {
@@ -88,4 +122,6 @@ public class MyLeanCloudApp extends Application {
 
         EaseUI.getInstance().init(this, options);
     }
+
+
 }

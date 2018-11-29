@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVGeoPoint;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
@@ -20,6 +21,7 @@ import com.avos.avoscloud.FindCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import reportdeviceinfo.lenovo.cn.share.MyLeanCloudApp;
 import reportdeviceinfo.lenovo.cn.share.R;
 import reportdeviceinfo.lenovo.cn.share.activity.HomePageActivity;
 import reportdeviceinfo.lenovo.cn.share.adapter.ProductAdapter;
@@ -64,7 +66,14 @@ public class NewestFragment extends Fragment implements AdapterView.OnItemClickL
 
     private void getData() {
         AVQuery<AVObject> avQuery = new AVQuery<>("Product");
-        avQuery.orderByDescending(orderBy);
+        //是否是位置
+        if (orderBy.equals("whereCreated")){
+            AVGeoPoint point = new AVGeoPoint(MyLeanCloudApp.latitude,MyLeanCloudApp.longitude);
+            avQuery.whereNear("whereCreated", point);
+        }else {
+            avQuery.orderByDescending(orderBy);
+        }
+
         avQuery.include("owner");
         avQuery.findInBackground(new FindCallback<AVObject>() {
             @Override

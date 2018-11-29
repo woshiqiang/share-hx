@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.hyphenate.chat.EMClient;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.finalteam.galleryfinal.GalleryFinal;
@@ -79,10 +81,31 @@ public class MeFragment extends Fragment implements View.OnClickListener {
             tv_introduction.setText("点我设置签名");
         }
 
+        HashMap<String,Object> authData = (HashMap<String, Object>) currentUser.get("authData");
 
-        AVFile headImg = currentUser.getAVFile("headImg");
-        if (headImg != null)
-            ImageLoaderUtil.display(getContext(), headImg.getUrl(), riv_head);
+        if (authData != null) {
+            Log.d("MeFragment", "--authData:" + authData);
+
+            try {
+
+                HashMap<String,Object> qq = (HashMap<String, Object>) authData.get("qq");
+                if (qq == null) {
+                    qq = (HashMap<String, Object>) authData.get("weixin");
+                }
+                String string = (String) qq.get("name");
+                tv_nick.setText(string);
+                String url = (String) qq.get("iconurl");
+                ImageLoaderUtil.display(getContext(), url, riv_head);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            AVFile headImg = currentUser.getAVFile("headImg");
+            if (headImg != null)
+                ImageLoaderUtil.display(getContext(), headImg.getUrl(), riv_head);
+        }
+
+
     }
 
     private void initView(View view) {

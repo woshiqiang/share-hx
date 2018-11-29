@@ -30,12 +30,14 @@ import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
+import com.avos.avoscloud.AVGeoPoint;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 
 import java.io.FileNotFoundException;
 
+import reportdeviceinfo.lenovo.cn.share.MyLeanCloudApp;
 import reportdeviceinfo.lenovo.cn.share.R;
 import reportdeviceinfo.lenovo.cn.share.util.DialogUtil;
 
@@ -154,6 +156,11 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
         product.put("price", price);
         product.put("scanNumber", 0);
         product.put("owner", AVUser.getCurrentUser());
+        //添加经纬度
+        AVGeoPoint point = new AVGeoPoint(MyLeanCloudApp.latitude,MyLeanCloudApp.longitude);
+        product.put("whereCreated",point);
+
+
         //图片
         try {
             AVFile file = AVFile.withAbsoluteLocalPath(System.currentTimeMillis() + ".png", imagePath);
